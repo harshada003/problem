@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ddc93930-c0df-4797-93d0-db9c79c2d89e" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="problemsatmentFlow" doc:id="b88394fd-0503-47c9-82ee-0fa46e2f32aa" >
+		<http:listener doc:name="Listener" doc:id="d4ae10d2-e471-497a-b170-5cfb56fa890e" config-ref="HTTP_Listener_config" path="/problem"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="33ba3e5c-942c-4cc4-9108-478487612e81" />
+		<ee:transform doc:name="Transform Message" doc:id="f1e87a42-ada9-4f27-89a5-9fde6c7e90f5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+ 		"id": "6d4747ee-eb00-4e81-b7dc-2b01585e6d99",
+ 		"username": "anna",
+ 		"email": "anna@mulesoft.com",
+ 		"connectionInfo": {
+ 			"IPAddress": "40.125.118.175",
+ 			"MACAddress": "9E-05-9B-68-8E-80"
+ 		}
+ 		
+ 		}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
